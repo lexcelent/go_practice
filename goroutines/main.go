@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	waitgroup "goroutines/wait_group"
+	"goroutines/ExampleSync"
 	"time"
 )
 
+// Пример с созданием и использованием канала
 func ChannelsExampleUsage() {
 	c := make(chan int)
 
@@ -19,6 +20,7 @@ func ChannelsExampleUsage() {
 	fmt.Printf("Число: %d", <-c)
 }
 
+// Пример с закрытием канала
 func ChannelsExampleClose1() {
 	in := make(chan int)
 
@@ -42,6 +44,7 @@ func ChannelsExampleClose1() {
 	fmt.Printf("Число в канале: %d, статус канала: %v\n", res, ok)
 }
 
+// Итерирование по каналу, который будет закрыт
 func ChannelsExampleClose2() {
 	in := make(chan int)
 
@@ -57,25 +60,7 @@ func ChannelsExampleClose2() {
 	}
 }
 
-func DoneChannelExample() {
-	done := make(chan struct{})
-	count := 4
-
-	for range count {
-		go func() {
-			time.Sleep(1 * time.Second)
-			fmt.Println("Work has been done")
-			// Передаем в канал сигнал о завершении
-			done <- struct{}{}
-		}()
-	}
-
-	// Ждем выполнения всех горутин
-	for range count {
-		<-done
-	}
-}
-
+// Пример дедлока
 func DeadlockExample() {
 	out := make(chan int)
 	done := make(chan struct{})
@@ -161,11 +146,11 @@ func BufferedChannelExample2() {
 }
 
 func main() {
-	waitgroup.UseWaitGroup()
-	// waitgroup.CallOneByOne()
+	ExampleSync.UseWaitGroup()
+	// ExampleSync.CallOneByOne()
 	// ChannelsExampleClose1()
 	// ChannelsExampleClose2()
-	// DoneChannelExample()
+	ExampleSync.DoneChannelExample()
 	// DeadlockExample()
 	// BufferedChannelExample1()
 	// BufferedChannelExample2()

@@ -1,4 +1,4 @@
-package waitgroup
+package ExampleSync
 
 import (
 	"fmt"
